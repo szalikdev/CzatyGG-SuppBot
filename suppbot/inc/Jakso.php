@@ -5,7 +5,7 @@
 *	File: Jakso.php(class)
 *	Author: Jakub "Jakso" Sochalec
 *	Created: 19.08.2017
-*	Last update: 21.08.2017
+*	Last update: 11.09.2017
 **/
 
 class czat
@@ -13,12 +13,12 @@ class czat
 	
 	static $_mysql;
 	static $_gmysql;
-	public function dbConnect()
+	public function dbConnect() //Funkcja odpowiadająca za połączenie z bazą danych
 	{
-		$dbhost = str_rot13("zlfdy12.zlqrivy.arg");
-		$dbuser = str_rot13("z1222_ptt");
-		$dbpass = str_rot13("Onolwnxfb121kQ");
-		$dbname = str_rot13("z1222_ptt_fhccobg");
+		$dbhost = str_rot13("localhost"); // Serwer bazy danych MySQL zakodowany w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
+		$dbuser = str_rot13("user"); // Użytkownik bazy danych MySQL zakodowany w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
+		$dbpass = str_rot13("password"); // Hasło bazy danych MySQL zakodowane w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
+		$dbname = str_rot13("database"); // Nazwa bazy danych MySQL zakodowana w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
 		
 		try
 		{
@@ -30,7 +30,7 @@ class czat
 		return $_mysql;
 	}
 	
-	public function globaldbConnect()
+	public function globaldbConnect() //Funkcja odpowiadająca za połączenie się z globalną bazą danych sieci
 	{
 		$dbhost = str_rot13("zlfdy12.zlqrivy.arg");
 		$dbuser = str_rot13("z1222_ptt");
@@ -47,7 +47,7 @@ class czat
 		return $_gmysql;
 	}
 	
-	public function bot($column)
+	public function bot($column) // Funkcja pobierająca podaną kolumnę z tabeli `bot` w bazie danych
 	{
 		extract($GLOBALS);
 		
@@ -65,7 +65,7 @@ class czat
 		return $q[$column];
 	}
 	
-	public function user($tresc)
+	public function user($tresc) // Funkcja pobierająca dane podanego użytkownika
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("SELECT * FROM `users` WHERE `numer` = {$tresc} OR `nick` = {$tresc} LIMIT 1");
@@ -73,7 +73,7 @@ class czat
 		return $return;
 	}
 	
-	public function userDANE($nick)
+	public function userDANE($nick) // Funkcja działa w taki sam sposób jak funkcja $class->user();
 	{
 		extract($GLOBALS);
 		
@@ -88,7 +88,7 @@ class czat
 		return $q;
 	}
 	
-	public function msg($tresc)
+	public function msg($tresc) //Funkcja wysyłająca podaną wiadmośc do Osoby, która napisała do bota.
 	{
 		extract($GLOBALS);
 		$tresc = str_replace("[l]", $linia, $tresc);
@@ -97,7 +97,7 @@ class czat
 		$m->clear();
 	}
 	
-	public function wiad($tresc, $do)
+	public function wiad($tresc, $do) //Funkcja wysyłająca podaną wiadomość do zdefiniowanyc Osób.
 	{
 		extract($GLOBALS);
 		$tresc = str_replace("[l]", $linia, $tresc);
@@ -107,7 +107,7 @@ class czat
 		$m->clear();
 	}
 	
-	public function wiadglob($tresc)
+	public function wiadglob($tresc) //Funkcja wysyłająca podaną wiadomość do wszystkich użytkowników bota, którzy mają włączoną zgodę
 	{
 		extract($GLOBALS);
 		$tresc = str_replace("[l]", $linia, $tresc);
@@ -123,7 +123,7 @@ class czat
 		$m->clear();
 	}
 	
-	public function wiadob($tresc)
+	public function wiadob($tresc) //Funkcja wysyłająca podaną wiadomość do obsługi bota.
 	{
 		extract($GLOBALS);
 		$tresc = str_replace("[l]", $linia, $tresc);
@@ -139,7 +139,7 @@ class czat
 		$m->clear();
 	}
 	
-	public function checkCMD($nazwa)
+	public function checkCMD($nazwa) //Funkcja sprawdzająca czy podana komenda istnieje.
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("SELECT * FROM `komendy` WHERE `nazwa` = '{$nazwa}'");
@@ -156,7 +156,7 @@ class czat
 		return $return;
 	}
 	
-	public function checkSKROT($skrot)
+	public function checkSKROT($skrot) //Funkcja sprawdzająca czy podany skrót komendy istnieje.
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("SELECT * FROM `komendy` WHERE `skrot` = '{$skrot}'");
@@ -173,7 +173,7 @@ class czat
 		return $return;
 	}
 	
-	public function checkPARTS($numer, $nazwa)
+	public function checkPARTS($numer, $nazwa) //Funkcja sprawdzająca czy użytkownik podał podany parametr po nazwie komendy. (np. /komenda [parts1] [parts2])
 	{
 		extract($GLOBALS);
 		
@@ -183,7 +183,7 @@ class czat
 		}
 	}
 	
-	public function checkexactPARTS($numer, $nazwa1, $nazwa2)
+	public function checkexactPARTS($numer, $nazwa1, $nazwa2) //Funkcja sprawdzająca czy użytkownik podał jako pierwszy parametr komendy podaną wartość ($nazwa1 lub $nazwa2)
 	{
 		extract($GLOBALS);
 		
@@ -193,7 +193,7 @@ class czat
 		}
 	}
 	
-	public function checkQUERY($query)
+	public function checkQUERY($query) //Funkcja sprawdzająca czy zapytanie MySQL wykonało się pomyślnie
 	{
 		extract($GLOBALS);
 		
@@ -209,7 +209,7 @@ class czat
 		return $query;
 	}
 	
-	public function checkUSER($nick)
+	public function checkUSER($nick) // Funkcja sprawdzająca czy podany użytkownik istnieje w bazie danych
 	{
 		extract($GLOBALS);
 		
@@ -227,7 +227,7 @@ class czat
 		return $return;
 	}
 	
-	public function checkCOLUMN($column, $table)
+	public function checkCOLUMN($column, $table) //Funkcja sprawdzająca czy podany wiersz istnieje w podanej tabeli.
 	{
 		extract($GLOBALS);
 		
@@ -245,7 +245,7 @@ class czat
 		return $return;
 	}
 	
-	public function checkisBOT($numer)
+	public function checkisBOT($numer) //Funkcja sprawdzająca czy podany użytkownik jest botem.
 	{
 		extract($GLOBALS);
 		if($p->isBot($from) == true)
@@ -254,7 +254,7 @@ class czat
 		}
 	}
 	
-	public function checkisGBANNED($gbnr)
+	public function checkisGBANNED($gbnr) //Funkcja sprawdzająca czy podany użytkownik jest globalnie zbanowany.
 	{
 		extract($GLOBALS);
 		
@@ -268,7 +268,7 @@ class czat
 		}
 	}
 	
-	public function checkBANG($bngnr, $ubg)
+	public function checkBANG($bngnr, $ubg) //Funkcja sprawdzająca czy użytkownik posiada globalnego bana.
 	{
 		extract($GLOBALS);
 		
@@ -301,19 +301,28 @@ class czat
 		return $bang;
 	}
 	
-	public function checkWYPISZ()
+	/*public function checkWYPISZ() //Funkcja sprawdzająca czy użytkownik wypisał się z bota.
+	
+	FUNKCJA NIE DZIAŁA, PROBLEM Z KODEM/BOT MASTEREM
+	
 	{
 		extract($GLOBALS);
 		
-		if($parts[0] == "WYPISZ")
+		if($msg == "WYPISZ")
 		{
-			die($parts[0] = "ZAPIS");
+			die($dbase->query("UPDATE `users` SET `wypisz` = '1' WHERE `numer` = '{$from}'"));
 		}
-		
-		return $parts[0];
+		if($msg == "ZAPISZ")
+		{
+			die($dbase->query("UPDATE `users` SET `wypisz` = '0' WHERE `numer` = '{$from}'"));
+		}
 	}
 	
-	public function dodajCMD($nazwa, $staff)
+	FUNKCJA NIE DZIAŁA PROBLEM Z KODEM/BOT MASTEREM
+	
+	*/
+	
+	public function dodajCMD($nazwa, $staff) //Funkcja dodająca komendę do bazy danych
 	{
 		extract($GLOBALS);
 		
@@ -342,7 +351,7 @@ class czat
 		return $q;
 	}
 	
-	public function usunCMD($nazwa)
+	public function usunCMD($nazwa) //Funkcja usuwająca komendę z bazy danych
 	{
 		extract($GLOBALS);
 		
@@ -370,7 +379,7 @@ class czat
 		return $q;
 	}
 	
-	public function edytujCMD($nazwa, $edit, $wartosc)
+	public function edytujCMD($nazwa, $edit, $wartosc) //Funkcja edytująca komendę w bazie danych
 	{
 		extract($GLOBALS);
 		
@@ -398,7 +407,7 @@ class czat
 		return $q;
 	}
 	
-	public function edytujUSER($nick, $edit, $wartosc, $show)
+	public function edytujUSER($nick, $edit, $wartosc, $show) //Funkcja edytująca użytkownika w bazie danych
 	{
 		extract($GLOBALS);
 		
@@ -431,15 +440,9 @@ class czat
 		return $q;
 	}
 	
-	public function edytujBOT($edit, $wartosc)
+	public function edytujBOT($edit, $wartosc) //Funkcja edytująca ustawienia bota w bazie danych
 	{
 		extract($GLOBALS);
-		
-		/*$checkCOLUMN = $class->checkCOLUMN($edit, "bot");
-		if($checkCOLUMN == false)
-		{
-			die($class->msg("Przepraszam, podana przez Ciebie nazwa kolumny nie istnieje!"));
-		}*/
 		
 		$q = $dbase->query("UPDATE `bot` SET `{$edit}` = '{$wartosc}'");
 		if($q === TRUE)
@@ -451,7 +454,7 @@ class czat
 		return $q;
 	}
 	
-	public function nick($pnick, $staff)
+	public function nick($pnick, $staff) //Funkcja tworząca wygląd nicku
 	{
 		extract($GLOBALS);
 		if(!isset($staff))
@@ -480,7 +483,7 @@ class czat
 		return $fnick;
 	}
 	
-	public function newSuppRequest($suppnr, $supp1, $supp2)
+	public function newSuppRequest($suppnr, $supp1, $supp2) //Funkcja tworząca nowy ticket w systemie zgłoszeń
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("INSERT INTO `support` (`numer`, `temat`, `tresc`) VALUES ('{$suppnr}', '{$supp1}', '{$supp2}')");
@@ -493,7 +496,7 @@ class czat
 		}
 	}
 	
-	public function showusrSuppRequests($suppusrnr)
+	public function showusrSuppRequests($suppusrnr) //Funkcja pokazująca zgłoszenia dla użytkownika
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("SELECT * FROM `support` WHERE `numer` = '{$suppusrnr}' AND `status` != '0'");
@@ -523,7 +526,7 @@ class czat
 		return $class->msg($return);
 	}
 	
-	public function showusrSuppRequest($id)
+	public function showusrSuppRequest($id) //Funkcja pokazująca zgłoszenie dla użytkownika
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("SELECT * FROM `support` WHERE `numer` = '{$from}' AND `id` = '{$id}'");
@@ -559,7 +562,7 @@ class czat
 		return $class->msg($return);
 	}
 	
-	public function showobSuppRequest($id)
+	public function showobSuppRequest($id) //Funkcja pokazująca zgłoszenie dla członka obsługi
 	{
 		extract($GLOBALS);
 		$q = $dbase->query("SELECT * FROM `support` WHERE `id` = '{$id}'");
@@ -595,7 +598,7 @@ class czat
 		return $class->msg($return);
 	}
 	
-	public function checkSuppReq($id, $set)
+	public function checkSuppReq($id, $set) //Funkcja sprawdzająca zgłoszenie
 	{
 		extract($GLOBALS);
 		if(!isset($set))
@@ -633,7 +636,7 @@ class czat
 		}
 	}
 	
-	public function replyusrSuppRequest($numer, $id, $tr)
+	public function replyusrSuppRequest($numer, $id, $tr) //Funkcja odpowiadająca za odpowiedzenie na zgłoszenie przez użytkownika
 	{
 		extract($GLOBALS);
 		$class->checkSuppReq($id);
@@ -648,7 +651,7 @@ class czat
 		}
 	}
 	
-	public function replyobSuppRequest($numer, $id, $tr)
+	public function replyobSuppRequest($numer, $id, $tr) //Funkcja odpowiadająca za odpowiedzenie na zgłoszenie przez obsługę
 	{
 		extract($GLOBALS);
 		$class->checkSuppReq($id, 1);
@@ -662,7 +665,7 @@ class czat
 		die($class->msg("Odpowiedź wysłana pomyślnie!"));
 	}
 	
-	public function closeSuppRequest($id)
+	public function closeSuppRequest($id) //Funkcja zamykająca zgłoszenie
 	{
 		extract($GLOBALS);
 		$class->checkSuppReq($id, 1);
@@ -680,7 +683,7 @@ class czat
 		}
 	}
 	
-	public function deleteSuppRequest($id)
+	public function deleteSuppRequest($id) //Funkcja usuwająca zgłoszenie
 	{
 		extract($GLOBALS);
 		$class->checkSuppReq($id, 2);
