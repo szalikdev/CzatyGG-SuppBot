@@ -32,10 +32,10 @@ class czat
 	
 	public function globaldbConnect() //Funkcja odpowiadająca za połączenie się z globalną bazą danych sieci
 	{
-		$dbhost = str_rot13("zlfdy12.zlqrivy.arg");
-		$dbuser = str_rot13("z1222_ptt");
-		$dbpass = str_rot13("Onolwnxfb121kQ");
-		$dbname = str_rot13("z1222_ptt_tybony");
+		$dbhost = str_rot13("localhost"); // Serwer globalnej bazy danych MySQL zakodowany w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
+		$dbuser = str_rot13("user"); // Użytkownik globalnej bazy danych MySQL zakodowany w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
+		$dbpass = str_rot13("password"); // Hasło globalnej bazy danych MySQL zakodowany w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
+		$dbname = str_rot13("database"); // Nazwa globalnej bazy danych MySQL zakodowany w ROT13 (funkcję można usunąć i podać bezpośrednie dane.)
 		
 		try
 		{
