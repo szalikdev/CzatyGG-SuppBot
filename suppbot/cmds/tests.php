@@ -1,5 +1,5 @@
 <?php
 	extract($GLOBALS);
-	
-	echo $m->getProtocolMessage();
+
+	//base testing file.
 ?>
