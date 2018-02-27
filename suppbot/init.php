@@ -15,6 +15,7 @@ ini_set("display_errors", 0);
 //SOME VARIABLES
 $vernr = "1.0.0";
 $NrSkr = "63182428";
+$networkname = "CzatyGG.pl";
 
 //REQUIRED FILES
 include_once("inc/Jakso.php"); //!!BOT HEART/CLASS FILE!!
@@ -63,7 +64,7 @@ if(!preg_match('/^91\.197\.15\.[0-9]{1,3}$/', $ip))
 {
 	die(header("location: http://czatygg.pl"));
 }
-	
+
 $msg = str_ireplace(array("DROP","TRUNCATE","SELECT","INSERT","VALUE","VALUES","UPDATE","</body>","<body>","<html>","<?","?>"),'',$msg);
 $msg = addslashes($msg);
 
@@ -89,18 +90,18 @@ if($from == $unick) //IF USER DIDN'T CHOOSED HIS NICKNAME YET
 	{
 		die($class->msg("Wybacz ale nick musi mieć więcej niż 3 znaki oraz mniej niż 20! :("));
 	}
-	
+
 	if(!strlen(preg_replace('/[a-zA-Zą-źĄ-Ź0-9-_łŁ]/', '', $parts[0])) == 0)//IF NICK HAVE SPECIAL LETTERS
 	{
 		die($class->msg("Wybacz ale nick nie może zawierać znaków specjalnych! :("));
 	}
-	
+
 	if($q->num_rows != 0)//IF CHOSEN NICK IS ALREADY IN USE
 	{
 		die(msg("Wybacz ale wybrany przez Ciebie nick jest zajęty! :("));
 	}
 	$str = strlen(preg_replace('/\D*/', '', $parts[0]));
-	
+
 	if($str > 5)
 	{
 		die($class->msg("Wybacz ale możesz podać tylko 5 cyfr w nicku! :("));
@@ -109,7 +110,7 @@ if($from == $unick) //IF USER DIDN'T CHOOSED HIS NICKNAME YET
 	$class->msg("Witaj {$parts[0]}! Miło mi Cię poznać! Aby uzyskać więcej informacji o mnie zapoznaj się z komendą /komendy!");
 	exit;
 }
-	
+
 //CHECK IF MESSAGE IS COMMAND
 $cmd = strtolower($parts[0]);
 $cmd = str_replace('.','',$cmd);
@@ -128,25 +129,25 @@ if(strpos($msg, '/') === 0 || strpos($msg, '.') === 0)
 	}
 	$q = $dbase->query("SELECT * FROM `komendy` WHERE `nazwa` = '{$cmd}' OR `skrot` = '{$cmd}'");
 	$kom = $q->fetch_assoc();
-	
+
 	if($kom['staff'] > $user['staff'])
 	{
 		die($class->msg("Przepraszam, nie możesz użyć tej komendy! :(\r\nWymagany Staff: ".$kom['staff']."! :("));
 	}
-	
+
 	if($q->num_rows != 0)
 	{
 		die(require_once("cmds/{$kom['nazwa']}.php"));
 	}
-	
+
 	if($q->num_rows != 1)
 	{
 		die($class->msg("Przepraszam, ta komenda nie istnieje, może się pomyliłeś(aś)?\nSprawdź listę tutaj: /komendy :)"));
 	}
 	exit;
 }
-	
+
 //DEFAULT MESSAGE
-die($class->msg("~> Witaj na SuppBocie sieci CzatyGG.pl! :)\r\n> Aby uzyskać pomoc, zapoznaj się z komendą /komendy!"));
+die($class->msg("~> Witaj na SuppBocie sieci {$networkname} :)\r\n> Aby uzyskać pomoc, zapoznaj się z komendą /komendy!"));
 
 ?>
